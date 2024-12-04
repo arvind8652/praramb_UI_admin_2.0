@@ -65,8 +65,8 @@ export default function Users() {
         ["height"]: formData.personlDetail.height,
         ["registrationDate"]:
           formData.registrationDetail.regitrationDate || new Date("DD-MM-YYYY"),
-        ["startDate"]: formData.registrationDetail.startDate,
-        ["expiryDate"]: formData.registrationDetail.endDate,
+        ["startDate"]: new Date(formData.registrationDetail.startDate),
+        ["expiryDate"]: new Date(formData.registrationDetail.endDate),
         ["totalAmountToPay"]: formData.paymentDetail.totalAmountToPay,
       };
       const res = await postRequest("customer/addCust", reqData);
