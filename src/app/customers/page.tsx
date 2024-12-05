@@ -9,6 +9,7 @@ import { ChangeEvent, useState } from "react";
 import { useGetRecoilData } from "../_lib/stateManagement/recoilManager";
 import { AtomsName } from "../_lib/constant";
 import { postRequest } from "../_lib/apiService";
+import CustomerList from "./CustomerList";
 
 const initialData = {
   personlDetail: {
@@ -85,6 +86,8 @@ export default function Users() {
 
   return (
     <Box>
+      <CustomerList />
+      <CustomDivider />
       <CustomDivider textAlign="left" label="Personal Detail" />
       <PersonalDetail onChangeHandler={onChangeHandler} />
       <CustomDivider
