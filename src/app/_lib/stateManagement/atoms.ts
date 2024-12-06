@@ -5,7 +5,7 @@ import { recoilPersist } from "recoil-persist";
 // Enabling persistence
 const { persistAtom } = recoilPersist({
   key: "myAppStorage", // Custom storage key
-  storage: localStorage, // Use sessionStorage or another storage if needed
+  storage: sessionStorage, // Use sessionStorage or another storage if needed
 });
 
 // Debugging effects

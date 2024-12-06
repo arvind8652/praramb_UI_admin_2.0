@@ -1,59 +1,42 @@
-import { Box } from "@mui/material";
 import React, { FC } from "react";
 import DataTable from "react-data-table-component";
+import { dynamicColumnsGeneration } from "./dataTableFun";
 
-const dataVal = [
-  { displayVal: "Title", dataVal: "title" },
-  { displayVal: "Year", dataVal: "year" },
-];
+interface IrowData {
+  id: number;
+  title: string;
+  year: string;
+}
+interface IrowDatanew {
+  id: number;
+  title: string;
+  year: string;
+  month: string;
+}
 
-const columns = [
-  {
-    name: "Title",
-    selector: (row: any) => row.title,
-  },
-  {
-    name: "Year",
-    selector: (row: any) => row.year,
-  },
-];
+interface IcolData {
+  displayVal: string;
+  dataVal: string;
+}
 
-const dynamicColumnsGeneration = () => {
-  let abc: any = [];
-  dataVal.map((d) => {
-    abc.push({
-      name: d.displayVal,
-      selector: (row: any) => row[d.dataVal],
-      sortable: true,
-    });
-  });
-  console.log("check teh arry----", abc);
-  return abc;
-};
+type colDataType = IcolData;
+type rowDataType = IrowData | IrowDatanew; // in this way we can pass multiple object in array when we are not sure.
+interface ICustomDataTable {
+  colData: colDataType[];
+  rowData: rowDataType[];
+}
 
-const data = [
-  {
-    id: 1,
-    title: "Beetlejuice",
-    year: "1988",
-  },
-  {
-    id: 2,
-    title: "Ghostbusters",
-    year: "1984",
-  },
-];
-const CustomDataTable: FC = () => {
+const CustomDataTable: FC<ICustomDataTable> = (props) => {
+  const { colData, rowData } = props;
   return (
-    <Box>
+    <>
       <DataTable
-        // columns={columns}
-        columns={dynamicColumnsGeneration()}
-        data={data}
+        columns={dynamicColumnsGeneration(colData)}
+        data={rowData}
         selectableRows
         // onSelectedRowsChange={handleChange}
       />
-    </Box>
+    </>
   );
 };
 

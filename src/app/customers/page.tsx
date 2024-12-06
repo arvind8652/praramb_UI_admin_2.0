@@ -64,12 +64,21 @@ export default function Users() {
         ["address"]: formData.personlDetail.address,
         ["weight"]: formData.personlDetail.weight,
         ["height"]: formData.personlDetail.height,
-        ["registrationDate"]:
-          formData.registrationDetail.regitrationDate || new Date("DD-MM-YYYY"),
-        ["startDate"]: new Date(formData.registrationDetail.startDate),
         ["expiryDate"]: new Date(formData.registrationDetail.endDate),
+        ["registrationDate"]:
+          formData.registrationDetail.regitrationDate || new Date(),
+        ["startDate"]: new Date(formData.registrationDetail.startDate),
         ["totalAmountToPay"]: formData.paymentDetail.totalAmountToPay,
       };
+      console.log(
+        "check expiry date--------",
+        typeof formData.registrationDetail.endDate
+      );
+      console.log(
+        "check expiry date-start-------",
+        typeof formData.registrationDetail.startDate
+      );
+      console.log("check the reqData-------", reqData);
       const res = await postRequest("customer/addCust", reqData);
       if (res.data) {
         setFormData(initialData);
