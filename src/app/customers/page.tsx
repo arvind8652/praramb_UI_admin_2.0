@@ -1,139 +1,58 @@
 "use client";
-import CustomDivider from "@/commonComponent/customDivider";
 import { Box } from "@mui/material";
-import PersonalDetail from "./PersonalDetail";
-import CustomButton from "@/commonComponent/customButton";
-import PaymentDetail from "./PaymentDetail";
-import RegistrationDetail from "./RegistrationDetail";
-import { ChangeEvent, useState } from "react";
-import { useGetRecoilData } from "../_lib/stateManagement/recoilManager";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import CustomerList from "./CustomerList";
+import {
+  useGetRecoilData,
+  useSetRecoilData,
+} from "../_lib/stateManagement/recoilManager";
 import { AtomsName } from "../_lib/constant";
 import { postRequest } from "../_lib/apiService";
-import CustomerList from "./CustomerList";
+import CustomButton from "@/commonComponent/customButton";
 
-const initialData = {
-  personlDetail: {
-    name: "",
-    age: "",
-    gender: "",
-    mobile: "",
-    email: "",
-    weight: "",
-    height: "",
-    address: "",
-  },
-  registrationDetail: {
-    regitrationDate: "",
-    startDate: "",
-    endDate: "",
-  },
-  paymentDetail: {
-    totalAmountToPay: "",
-  },
-};
-
-export default function Users() {
+const Customers = () => {
+  const router = useRouter();
   const brandDetail = useGetRecoilData(AtomsName.BRANDDETAIL);
-  const [formData, setFormData] = useState(initialData);
-  const onChangeHandler = (
-    e: any,
-    sectionName: string,
-    fieldName?: string
-  ): void => {
-    console.log("check the date value---------", e);
-    let oldFormData: any = { ...formData };
-    if (fieldName) {
-      oldFormData[sectionName][fieldName] = e ? e.format("DD-MM-YYYY") : "";
-    } else {
-      oldFormData[sectionName][e.target.name] = e.target.value;
-    }
-    setFormData(oldFormData);
+  const setCustomersListRecoilData = useSetRecoilData(AtomsName.CUSTOMERSLIST);
+
+  const navigateToAddCustomer = (e: any): void => {
+    e.preventDefault();
+    router.push("customers/newCustomer");
   };
 
-  const formSubmit = async () => {
+  const customerListApi = async () => {
     try {
-      const reqData = {
-        // ...formData,
-        ["brandId"]: brandDetail?._id,
-        ["name"]: formData.personlDetail.name,
-        ["age"]: formData.personlDetail.age,
-        ["gender"]: formData.personlDetail.gender,
-        ["photo"]: "photo data",
-        ["mobile"]: formData.personlDetail.mobile,
-        ["email"]: formData.personlDetail.email,
-        ["address"]: formData.personlDetail.address,
-        ["weight"]: formData.personlDetail.weight,
-        ["height"]: formData.personlDetail.height,
-        ["expiryDate"]: new Date(formData.registrationDetail.endDate),
-        ["registrationDate"]:
-          formData.registrationDetail.regitrationDate || new Date(),
-        ["startDate"]: new Date(formData.registrationDetail.startDate),
-        ["totalAmountToPay"]: formData.paymentDetail.totalAmountToPay,
-      };
-      console.log(
-        "check expiry date--------",
-        typeof formData.registrationDetail.endDate
-      );
-      console.log(
-        "check expiry date-start-------",
-        typeof formData.registrationDetail.startDate
-      );
-      console.log("check the reqData-------", reqData);
-      const res = await postRequest("customer/addCust", reqData);
+      const reqData = { brandId: brandDetail?._id };
+      const res = await postRequest("customer/customerList", reqData);
       if (res.data) {
-        setFormData(initialData);
+        setCustomersListRecoilData(res.data);
       }
     } catch (error) {
-      console.log("getting error----------", error);
+      console.log("error--------", error);
     }
   };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    formSubmit();
-  };
-
+  useEffect(() => {
+    customerListApi();
+  }, []);
   return (
-    <Box>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "end",
+        }}
+      >
+        <CustomButton
+          sx={{ mb: 1 }}
+          data={"Add New Customer"}
+          onClick={navigateToAddCustomer}
+        />
+      </Box>
       <CustomerList />
-      <CustomDivider />
-      <CustomDivider textAlign="left" label="Personal Detail" />
-      <PersonalDetail onChangeHandler={onChangeHandler} />
-      <CustomDivider
-        textAlign="left"
-        label="Registration Detail"
-        sx={{ mt: 2 }}
-      />
-      <RegistrationDetail onChangeHandler={onChangeHandler} />
-      <CustomDivider textAlign="left" label="Payment Detail" sx={{ mt: 2 }} />
-      <PaymentDetail onChangeHandler={onChangeHandler} />
-      <CustomButton sx={{ mt: 1 }} data={"Submit"} onClick={handleSubmit} />
-    </Box>
+    </>
   );
-}
+};
 
-// import {
-//   getRequest,
-//   postRequest,
-//   putRequest,
-//   patchRequest,
-// } from "@/lib/apiService";
-
-// const fetchData = async () => {
-//   try {
-//     const data = await getRequest("/api/endpoint");
-//     console.log("Fetched data:", data);
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// };
-
-// const sendData = async () => {
-//   const payload = { key: "value" };
-//   try {
-//     const response = await postRequest("/api/endpoint", payload);
-//     console.log("Response:", response);
-//   } catch (error) {
-//     console.error("Error sending data:", error);
-//   }
-// };
+export default Customers;

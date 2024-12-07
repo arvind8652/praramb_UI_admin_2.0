@@ -55,6 +55,7 @@ export default function RootLayout({
   const menuItems = [
     { text: "Dashboard", href: "/" },
     { text: "Customers", href: "/customers" },
+    { text: "Payments", href: "/payments" },
     { text: "Staffs", href: "/staffs" },
     { text: "Settings", href: "/settings" },
   ];

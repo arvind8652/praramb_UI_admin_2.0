@@ -28,6 +28,12 @@ export const customerDetail = atom({
   effects_UNSTABLE: [persistAtom, debugEffect("customerDetail")], // persist the atom data
 });
 
+export const customersList = atom({
+  key: "customersList", // unique ID (with respect to other atoms/selectors)
+  default: null, // default value (aka initial value)
+  effects_UNSTABLE: [persistAtom, debugEffect("customersList")], // persist the atom data
+});
+
 export const brandDetail = atom({
   key: "brandDetail", // unique ID (with respect to other atoms/selectors)
   default: null, // default value (aka initial value)

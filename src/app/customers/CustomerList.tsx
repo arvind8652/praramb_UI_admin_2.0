@@ -1,34 +1,25 @@
 import CustomDataTable from "@/commonComponent/customDataTable";
 import { Box } from "@mui/material";
 import React from "react";
+import { useGetRecoilData } from "../_lib/stateManagement/recoilManager";
+import { AtomsName } from "../_lib/constant";
 
-const dataVal = [
-  { displayVal: "Title", dataVal: "title" },
-  { displayVal: "Year", dataVal: "year" },
-];
-
-const data = [
-  {
-    id: 1,
-    title: "Beetlejuice",
-    year: "1988",
-  },
-  {
-    id: 2,
-    title: "Ghostbusters",
-    year: "1984",
-  },
-  {
-    id: 3,
-    title: "Ghostbusters data",
-    year: "1985",
-  },
-];
+const generateColumns = (data: any) => {
+  const result = data?.map((key: string) => ({
+    displayVal: key
+      .replace(/_/g, "")
+      .replace(/\b\w/g, (char) => char.toUpperCase()), // Formatting key for display
+    dataVal: key,
+  }));
+  return result;
+};
 
 const CustomerList = () => {
+  const customersList = useGetRecoilData(AtomsName.CUSTOMERSLIST);
+  const colVal = generateColumns(Object.keys(customersList[0]));
   return (
     <Box>
-      <CustomDataTable colData={dataVal} rowData={data} />
+      <CustomDataTable colData={colVal} rowData={customersList} />
     </Box>
   );
 };
