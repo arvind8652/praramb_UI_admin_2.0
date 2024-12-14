@@ -1,6 +1,12 @@
-export const dynamicColumnsGeneration = (dataVal: any) => {
+interface IdynamicColumnsGeneration {
+  displayVal: string;
+  dataVal: string;
+}
+export const dynamicColumnsGeneration = (
+  dataVal: IdynamicColumnsGeneration[]
+) => {
   let updatedColumnsData: any = [];
-  dataVal.map((d: any) => {
+  dataVal.map((d: IdynamicColumnsGeneration) => {
     updatedColumnsData.push({
       name: d.displayVal,
       selector: (row: any) => row[d.dataVal],

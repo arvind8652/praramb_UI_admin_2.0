@@ -16,10 +16,14 @@ const generateColumns = (data: any) => {
 
 const CustomerList = () => {
   const customersList = useGetRecoilData(AtomsName.CUSTOMERSLIST);
-  const colVal = generateColumns(Object.keys(customersList[0]));
+
+  const colVal =
+    customersList && generateColumns(Object.keys(customersList[0]));
   return (
     <Box>
-      <CustomDataTable colData={colVal} rowData={customersList} />
+      {colVal && customersList && (
+        <CustomDataTable colData={colVal} rowData={customersList} />
+      )}
     </Box>
   );
 };

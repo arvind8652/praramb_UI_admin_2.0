@@ -38,7 +38,7 @@ export default function RootLayout({
 
   useEffect(() => {
     // Check if the user is authenticated on component mount
-    const authStatus = localStorage.getItem("isAuthenticated");
+    const authStatus = sessionStorage.getItem("isAuthenticated");
     if (authStatus === "true") {
       setIsAuthenticated(true);
     }
@@ -83,14 +83,14 @@ export default function RootLayout({
   );
 
   const handleLogin = () => {
-    localStorage.setItem("isAuthenticated", "true");
+    sessionStorage.setItem("isAuthenticated", "true");
     setIsAuthenticated(true);
   };
 
   const handleLogout = () => {
-    // Clear login state from localStorage
-    localStorage.setItem("isAuthenticated", "false");
-    localStorage.setItem("myAppStorage", "");
+    // Clear login state from sessionStorage
+    sessionStorage.setItem("isAuthenticated", "false");
+    sessionStorage.setItem("myAppStorage", "");
     setIsAuthenticated(false);
   };
 
