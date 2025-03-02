@@ -1,4 +1,4 @@
-function debounce<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: any[]) => void>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
@@ -15,9 +15,8 @@ function debounce<T extends (...args: any[]) => void>(
   };
 }
 
-export default debounce;
-
-// const debouncedSearch = debounce(function, 500);
-
-// // Use the debounced function
-// debouncedSearch("hello");
+export function getUnmatchedObjects({ arr1, arr2, arr1Key, arr2Key }) {
+  return arr1.filter(
+    (obj1) => !arr2.some((obj2) => obj1[arr1Key] === obj2[arr2Key])
+  );
+}

@@ -10,9 +10,19 @@ type PersonalDetailProps = {
     sectionName: string,
     fieldName?: string
   ) => void;
+  formData: {
+    name: string;
+    age: string;
+    gender: string;
+    mobile: string;
+    email: string;
+    weight: string;
+    height: string;
+    address: string;
+  };
 };
 const PersonalDetail: FC<PersonalDetailProps> = (props) => {
-  const { onChangeHandler } = props;
+  const { onChangeHandler, formData } = props;
   return (
     <Box>
       <Grid container spacing={2}>
@@ -21,6 +31,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="name"
             name={"name"}
+            value={formData?.name}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -29,6 +40,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="age"
             name={"age"}
+            value={formData?.age}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -37,6 +49,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="gender"
             name={"gender"}
+            value={formData?.gender}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -45,6 +58,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="mobile"
             name={"mobile"}
+            value={formData?.mobile}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -53,6 +67,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="email"
             name={"email"}
+            value={formData?.email}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -61,6 +76,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="weight"
             name={"weight"}
+            value={formData?.weight}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -69,6 +85,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="height"
             name={"height"}
+            value={formData?.height}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>
@@ -78,6 +95,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             type="textfield"
             label="address"
             name={"address"}
+            value={formData?.address}
             onChange={(e) => onChangeHandler(e, "personlDetail")}
           />
         </Grid>

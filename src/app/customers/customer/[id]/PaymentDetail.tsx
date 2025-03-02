@@ -9,10 +9,13 @@ type PaymentDetailProps = {
     sectionName: string,
     fieldName?: string
   ) => void;
+  formData: {
+    totalAmountToPay: string;
+  };
 };
 
 const PaymentDetail: FC<PaymentDetailProps> = (props) => {
-  const { onChangeHandler } = props;
+  const { onChangeHandler, formData } = props;
   return (
     <Box>
       <Grid container spacing={2}>
@@ -21,6 +24,7 @@ const PaymentDetail: FC<PaymentDetailProps> = (props) => {
             type="textfield"
             label="total amount To Pay"
             name={"totalAmountToPay"}
+            value={formData?.totalAmountToPay}
             onChange={(e) => onChangeHandler(e, "paymentDetail")}
           />
         </Grid>

@@ -20,7 +20,7 @@ const Customers = () => {
     e: React.MouseEvent<HTMLButtonElement>
   ): void => {
     e.preventDefault();
-    router.push("customers/newCustomer");
+    router.push("customers/customer/new");
   };
 
   const customerListApi = async () => {

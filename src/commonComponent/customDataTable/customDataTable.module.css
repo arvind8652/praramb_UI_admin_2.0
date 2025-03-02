@@ -1,0 +1,49 @@
+.tableContainer {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table :global(.rdt_TableHead) {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.table :global(.rdt_TableRow) {
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.table :global(.rdt_TableRow:hover) {
+  background-color: #f1f1f1;
+}
+
+/* ✅ Styles for selected rows */
+.table :global(.rdt_TableRow.selected) {
+  background-color: #d1e7ff !important; /* Light blue */
+}
+
+/* ✅ Styles for checkboxes */
+.table :global(.rdt_TableCol_Sortable),
+.table :global(.rdt_TableCol) {
+  display: flex;
+  align-items: center;
+}
+
+.table :global(.rdt_TableCol input[type="checkbox"]),
+.table :global(.rdt_TableRow input[type="checkbox"]) {
+  width: 18px;
+  height: 18px;
+  accent-color: #007bff; /* Bootstrap primary blue */
+}
+
+/* ✅ Pagination */
+.table :global(.rdt_Pagination) {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+}

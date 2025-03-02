@@ -7,11 +7,13 @@ export const dynamicColumnsGeneration = (
 ) => {
   let updatedColumnsData: any = [];
   dataVal.map((d: IdynamicColumnsGeneration) => {
-    updatedColumnsData.push({
-      name: d.displayVal,
-      selector: (row: any) => row[d.dataVal],
-      sortable: true,
-    });
+    if (d.displayVal) {
+      updatedColumnsData.push({
+        name: d.displayVal,
+        selector: (row: any) => row[d.dataVal],
+        sortable: true,
+      });
+    }
   });
   return updatedColumnsData;
 };
