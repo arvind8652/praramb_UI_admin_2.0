@@ -1,6 +1,6 @@
 "use client";
 import CustomDivider from "@/commonComponent/customDivider";
-import { Box, SelectChangeEvent } from "@mui/material";
+import { Box } from "@mui/material";
 import PersonalDetail from "./PersonalDetail";
 import CustomButton from "@/commonComponent/customButton";
 import PaymentDetail from "./PaymentDetail";
@@ -8,10 +8,10 @@ import RegistrationDetail from "./RegistrationDetail";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useGetRecoilData } from "../../../_lib/stateManagement/recoilManager";
 import { AtomsName } from "../../../_lib/constant";
-import { postRequest } from "../../../_lib/apiService";
+import { postRequest, putRequest } from "../../../_lib/apiService";
 import { useRouter } from "next/navigation";
 import CustomText from "@/commonComponent/customText";
-import { Dayjs } from "dayjs";
+import { formatDate } from "@/app/_lib/commonFn";
 
 const initialData = {
   personalDetail: {
@@ -25,7 +25,7 @@ const initialData = {
     address: "",
   },
   registrationDetail: {
-    registrationDate: "",
+    registrationDate: formatDate(new Date()),
     endDate: "",
     startDate: "",
   },
@@ -42,46 +42,73 @@ export default function Users({ params }: { params: { id?: string } }) {
   const brandDetail = useGetRecoilData(AtomsName.BRANDDETAIL);
   const [formData, setFormData] = useState(initialData);
 
-  const onChangeHandler_ = (
+  // const onChangeHandler_new = (
+  //   value: any,
+  //   sectionName: string,
+  //   fieldName?: string
+  // ): void => {
+  //   let oldFormData: any = { ...formData };
+
+  //   if (fieldName) {
+  //     // Check if the value is from DatePicker (Day.js object) or a regular input event
+  //     oldFormData[sectionName][fieldName] =
+  //       value && value.$d
+  //         ? value.format("DD-MM-YYYY")
+  //         : value?.target?.value || "";
+  //   } else {
+  //     oldFormData[sectionName][value.target.name] = value.target.value;
+  //   }
+
+  //   setFormData(oldFormData);
+  // };
+
+  const onChangeHandler = (
     e: any,
     sectionName: string,
     fieldName?: string
   ): void => {
+    console.log("checking-e--------", e);
+    console.log("checking--sectionName-------", sectionName);
+    console.log("checking---fieldName------", fieldName);
     let oldFormData: any = { ...formData };
+    console.log("checking---formData------", formData);
     if (fieldName) {
-      oldFormData[sectionName][fieldName] = e ? e : "";
+      // oldFormData[sectionName][fieldName] = e ? e : "";
+      oldFormData[sectionName][fieldName] =
+        e && e.$d ? e.format("DD-MM-YYYY") : e?.target?.value || "";
     } else {
       oldFormData[sectionName][e.target.name] = e.target.value;
     }
+    console.log("checking--oldFormData------", oldFormData);
     setFormData(oldFormData);
   };
 
-  const onChangeHandler = (
-    e: ChangeEvent<any> | SelectChangeEvent,
-    sectionName: string,
-    fieldName?: string
-  ): void => {
-    let oldFormData: any = { ...formData };
+  // const onChangeHandler_ = (
+  //   e: ChangeEvent<any> | SelectChangeEvent,
+  //   sectionName: string,
+  //   fieldName?: string
+  // ): void => {
+  //   let oldFormData: any = { ...formData };
 
-    if (fieldName) {
-      oldFormData[sectionName][fieldName] = e.target.value;
-    } else {
-      oldFormData[sectionName][e.target.name] = e.target.value;
-    }
+  //   if (fieldName) {
+  //     oldFormData[sectionName][fieldName] = e.target.value;
+  //   } else {
+  //     oldFormData[sectionName][e.target.name] = e.target.value;
+  //   }
 
-    setFormData(oldFormData);
-  };
+  //   setFormData(oldFormData);
+  // };
 
   // Separate handler for DatePicker
-  const onDateChangeHandler = (
-    date: Dayjs | null,
-    sectionName: string,
-    fieldName: string
-  ) => {
-    let oldFormData: any = { ...formData };
-    oldFormData[sectionName][fieldName] = date ? date.format("YYYY-MM-DD") : "";
-    setFormData(oldFormData);
-  };
+  // const onDateChangeHandler = (
+  //   date: Dayjs | null,
+  //   sectionName: string,
+  //   fieldName: string
+  // ) => {
+  //   let oldFormData: any = { ...formData };
+  //   oldFormData[sectionName][fieldName] = date ? date.format("YYYY-MM-DD") : "";
+  //   setFormData(oldFormData);
+  // };
 
   const formSubmit = async () => {
     try {
@@ -97,13 +124,19 @@ export default function Users({ params }: { params: { id?: string } }) {
         ["address"]: formData.personalDetail.address,
         ["weight"]: formData.personalDetail.weight,
         ["height"]: formData.personalDetail.height,
-        ["expiryDate"]: new Date(formData.registrationDetail.endDate),
+        ["expiryDate"]: formData.registrationDetail.endDate,
         ["registrationDate"]:
-          formData.registrationDetail.registrationDate || new Date(),
-        ["startDate"]: new Date(formData.registrationDetail.startDate),
+          formData.registrationDetail.registrationDate ||
+          formatDate(new Date()),
+        ["startDate"]: formData.registrationDetail.startDate,
         ["totalAmountToPay"]: formData.paymentDetail.totalAmountToPay,
       };
-      const res = await postRequest("customer/addCust", reqData);
+      let res: any;
+      if (customerId === "new") {
+        res = await postRequest("customer/addCust", reqData);
+      } else {
+        res = await putRequest(`customer/updateCust/${customerId}`, reqData);
+      }
       if (res.data) {
         setFormData(initialData);
         router.push("/customers");
@@ -138,8 +171,11 @@ export default function Users({ params }: { params: { id?: string } }) {
           },
           registrationDetail: {
             registrationDate: result.joiningDetail.registrationDate,
-            endDate: result.joiningDetail.endDate,
+            endDate: result.joiningDetail.expiryDate,
             startDate: result.joiningDetail.startDate,
+            // startDate:
+            //   result.joiningDetail.startDate &&
+            //   parseDate(result.joiningDetail.startDate),
           },
           paymentDetail: {
             totalAmountToPay: result.paymentDetail.totalAmountToPay,
@@ -173,7 +209,10 @@ export default function Users({ params }: { params: { id?: string } }) {
         label="Registration Detail"
         sx={{ mt: 2 }}
       />
-      <RegistrationDetail onChangeHandler={onChangeHandler} />
+      <RegistrationDetail
+        onChangeHandler={onChangeHandler}
+        formData={formData?.registrationDetail}
+      />
       <CustomDivider textAlign="left" label="Payment Detail" sx={{ mt: 2 }} />
       <PaymentDetail
         onChangeHandler={onChangeHandler}

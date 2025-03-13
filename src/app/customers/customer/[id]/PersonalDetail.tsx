@@ -32,7 +32,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="name"
             name={"name"}
             value={formData?.name}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
         <Grid size={4}>
@@ -41,7 +41,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="age"
             name={"age"}
             value={formData?.age}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
         <Grid size={4}>
@@ -50,7 +50,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="gender"
             name={"gender"}
             value={formData?.gender}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
         <Grid size={4}>
@@ -59,7 +59,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="mobile"
             name={"mobile"}
             value={formData?.mobile}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
         <Grid size={4}>
@@ -68,7 +68,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="email"
             name={"email"}
             value={formData?.email}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
         <Grid size={2}>
@@ -77,7 +77,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="weight"
             name={"weight"}
             value={formData?.weight}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
         <Grid size={2}>
@@ -86,7 +86,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="height"
             name={"height"}
             value={formData?.height}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
 
@@ -96,7 +96,7 @@ const PersonalDetail: FC<PersonalDetailProps> = (props) => {
             label="address"
             name={"address"}
             value={formData?.address}
-            onChange={(e) => onChangeHandler(e, "personlDetail")}
+            onChange={(e) => onChangeHandler(e, "personalDetail")}
           />
         </Grid>
       </Grid>

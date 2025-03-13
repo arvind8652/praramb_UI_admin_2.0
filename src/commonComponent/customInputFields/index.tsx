@@ -15,9 +15,12 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+import { parseDate } from "@/app/_lib/commonFn";
 
 interface CustomInputFieldsProps {
   type: "textfield" | "select" | "radio" | "checkbox" | "date";
+  name: string;
   label?: string;
   value?: any;
   options?: { label: string; value: any }[]; // for select or radio
@@ -26,6 +29,7 @@ interface CustomInputFieldsProps {
 }
 
 const CustomInputFields: React.FC<CustomInputFieldsProps> = ({
+  name,
   type,
   label,
   value,
@@ -33,10 +37,13 @@ const CustomInputFields: React.FC<CustomInputFieldsProps> = ({
   onChange,
   ...rest
 }) => {
+  console.log("checking--name--", name);
+  console.log("checking--value--", value);
   switch (type) {
     case "textfield":
       return (
         <TextField
+          name={name}
           label={label}
           value={value}
           size={rest.size || "small"}
@@ -94,9 +101,11 @@ const CustomInputFields: React.FC<CustomInputFieldsProps> = ({
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]}>
             <DatePicker
+              name={name}
               label={label}
               format="DD-MM-YYYY"
-              value={value}
+              value={value ? dayjs(value, "DD-MM-YYYY") : null}
+              // value={value}
               onChange={onChange}
               slots={{ textField: TextField }}
               slotProps={{
@@ -105,7 +114,7 @@ const CustomInputFields: React.FC<CustomInputFieldsProps> = ({
                   fullWidth: true,
                   sx: {
                     "& .MuiInputLabel-root": {
-                      mt: -1, // Moves the label text upward
+                      mt: -0.5, // Moves the label text upward
                     },
                     "& .MuiOutlinedInput-root": {
                       mt: -1,

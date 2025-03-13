@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import Payment from "./newPayment/page";
+import Payment from "./payment/[id]/page";
 import PaymentList from "./PaymentList";
 import { useRouter } from "next/navigation";
 import {

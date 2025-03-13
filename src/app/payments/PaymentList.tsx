@@ -15,7 +15,7 @@ const PaymentList = () => {
     { displayVal: "Start Date", dataVal: "startDate" },
     { displayVal: "Expiry Date", dataVal: "expiryDate" },
     // { displayVal: "Email", dataVal: "email" },
-    { displayVal: "Gender", dataVal: "gender" },
+    // { displayVal: "Gender", dataVal: "gender" },
     { displayVal: "", dataVal: "edit" },
     { displayVal: "", dataVal: "delete" },
   ];
