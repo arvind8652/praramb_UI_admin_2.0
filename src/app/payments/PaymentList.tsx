@@ -3,8 +3,22 @@ import { useGetRecoilData } from "../_lib/stateManagement/recoilManager";
 import { AtomsName } from "../_lib/constant";
 import { Box } from "@mui/material";
 import CustomDataTable from "@/commonComponent/customDataTable";
+import { useRouter } from "next/navigation";
 
+interface rowDataIF {
+  _id: string;
+  email: string;
+  expiryDate: string;
+  gender: "male" | "female" | "other";
+  mobile: string;
+  name: string;
+  paymentFor: string;
+  registrationDate: string;
+  startDate: string;
+  totalAmountToPay: number;
+}
 const PaymentList = () => {
+  const router = useRouter();
   const colVal = [
     { displayVal: "Id", dataVal: "_id" },
     { displayVal: "Name", dataVal: "name" },
@@ -16,7 +30,7 @@ const PaymentList = () => {
     { displayVal: "Expiry Date", dataVal: "expiryDate" },
     // { displayVal: "Email", dataVal: "email" },
     // { displayVal: "Gender", dataVal: "gender" },
-    { displayVal: "", dataVal: "edit" },
+    { displayVal: "", dataVal: "edit", url: "payments/payment" },
     { displayVal: "", dataVal: "delete" },
   ];
   const paymentsList = useGetRecoilData(AtomsName.PAYMENTSLIST);
@@ -37,10 +51,24 @@ const PaymentList = () => {
       };
     });
 
+  const handleEditFun = (id: rowDataIF) => {
+    console.log("Edit Clicked for ID:", id); // eslint-disable-line
+    router.push("payments/payment/" + id?._id);
+  };
+  const handleDeleteFun = (id: string) => {
+    console.log("Delete Clicked for ID:", id); // eslint-disable-line
+  };
   return (
     <Box>
       {colVal && paymentsList && (
-        <CustomDataTable colData={colVal} rowData={rowVal} />
+        <CustomDataTable
+          colData={colVal}
+          rowData={rowVal}
+          calBackFunctions={{
+            editFun: handleEditFun,
+            deleteFun: handleDeleteFun,
+          }}
+        />
       )}
     </Box>
   );
